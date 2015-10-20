@@ -16,11 +16,13 @@ To first obtain the engineData you will need to install psd-tools, then you can 
 
     for layer in reversed(psd.layers):
         #get the raw engine data
-        rawData = layer._tagged_blocks['TySh'][-1][-1][-1][-1]
-        rawDataValue = rawData.value
+        rawData = layer.tagged_blocks.TYPE_TOOL_OBJECT_SETTING.text_data.items
+        rawDataTuple = [tup[1] for tup in rawData]
+        rawDataTuple.reverse()
+        rawDataValue = rawDataTuple[0].value
         
         propDict= {'FontSet':'','Text':'','FontSize':'','A':'','R':'','G':'','B':''}
-        getFontAndColorDict(propDict,engineDataValue)
+        getFontAndColorDict(propDict,rawDataValue)
         #Then just index into the dictionary to get the values
         myText = propDict['Text']
         myFont = propDict['FontSet']
